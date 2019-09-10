@@ -86,9 +86,9 @@ public class ImeiPlugin implements MethodCallHandler, PluginRegistry.RequestPerm
                     mResult.success("Permission Denied");
                     // permission denied
                 }
-                break;
+                return true;
         }
-        return true;
+        return false;
     }
 
 }
