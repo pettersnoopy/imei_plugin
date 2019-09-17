@@ -44,11 +44,7 @@ public class ImeiPlugin implements MethodCallHandler, PluginRegistry.RequestPerm
 
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
             if (ContextCompat.checkSelfPermission((context), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED){
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                    result.success( telephonyManager.getImei() );
-                else
-                    result.success( telephonyManager.getDeviceId() );
+                result.success( telephonyManager.getDeviceId() );
 
             } else {
 
