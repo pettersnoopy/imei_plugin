@@ -1,4 +1,5 @@
 #import "ImeiPlugin.h"
+#import <AdSupport/ASIdentifierManager.h>
 
 @implementation ImeiPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
@@ -11,11 +12,20 @@
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"getImei" isEqualToString:call.method]) {
-    NSUUID *identifierForVendor = [[UIDevice currentDevice] identifierForVendor];
-    result([identifierForVendor UUIDString]);
+    [self getIdfa:call result:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
 }
 
+-(void)getIdfa:(FlutterMethodCall*)call result:(FlutterResult)result {
+    if([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
+        NSUUID *identifier = [[ASIdentifierManager sharedManager] advertisingIdentifier];
+        result([identifier UUIDString]);
+        return;
+    }
+    
+    NSUUID *identifierForVendor = [[UIDevice currentDevice] identifierForVendor];
+    result([identifierForVendor UUIDString]);
+}
 @end
